@@ -1,4 +1,4 @@
-{{$.Draft = true}}
-{{if not $.Draft}}
+{{$Draft = true}}
+{{if not $Draft}}
 
 {{end}}

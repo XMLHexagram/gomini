@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"github.com/lmx-Hexagram/gemini-generator/internal/service/config"
 	"github.com/spf13/cobra"
 	"html/template"
 	"io"
@@ -35,6 +36,13 @@ func build(cmd *cobra.Command, args []string) error {
 	//}
 	//
 	//return nil
+	config.Init()
+	baseConfig := config.ProvideBase()
+	fmt.Println(baseConfig)
+	type templateData struct {
+		BaseUrl string
+	}
+	var td = templateData{BaseUrl: baseConfig.BaseUrl}
 	createpath, err := filepath.Abs(filepath.Clean("public"))
 	if err != nil {
 		panic(err)
@@ -45,19 +53,19 @@ func build(cmd *cobra.Command, args []string) error {
 	}
 	filepath.WalkDir("./", func(path_ string, d fs.DirEntry, err error) error {
 
-		a,b := filepath.Split(path_)
-		fmt.Println(path_)
-		fmt.Println(a,b)
-		pathList := strings.Split(path_,"/")
+		//a, b := filepath.Split(path_)
+		//fmt.Println(path_)
+		//fmt.Println(a, b)
+		pathList := strings.Split(path_, "/")
 		fmt.Println(pathList)
-		if pathList[0] == "public"||path_ == "./" || len(pathList) == 0 || string(pathList[len(pathList)-1][0]) == "."{
+		if pathList[0] == "public" || path_ == "./" || len(pathList) == 0 || string(pathList[len(pathList)-1][0]) == "." {
 			return nil
 		}
 		if d.IsDir() == true {
 			pathList[0] = "public"
 			os.MkdirAll(path.Join(pathList...), 0777)
 		} else {
-			if len(pathList) == 1{
+			if len(pathList) == 1 {
 				fmt.Println(pathList)
 				return nil
 			}
@@ -69,12 +77,13 @@ func build(cmd *cobra.Command, args []string) error {
 			}
 			defer f.Close()
 
+			fmt.Println(path_)
 			tmpl, err := template.ParseFiles(path_)
 			if err != nil {
 				panic(err)
 			}
-			tmpl.Execute(os.Stdout,nil)
-			tmpl.Execute(io.Writer(f), nil)
+			//tmpl.Execute(os.Stdout, td)
+			tmpl.Execute(io.Writer(f), td)
 		}
 		return nil
 	})

@@ -1,13 +1,9 @@
 package config
 
-func ProvideLog() Log {
-	return configService.Log
+func ProvideTLS() TLS {
+	return configService.TLS
 }
 
-func ProvideDbMap() DbMap {
-	return configService.DbMap
-}
-
-func ProvideHttp() Http {
-	return configService.Server.Http
+func ProvideBase() Base {
+	return configService.Base
 }

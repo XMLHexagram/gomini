@@ -9,7 +9,7 @@ import (
 )
 
 var NewNewSiteCmd = &cobra.Command{
-	Use:   "new site",
+	Use:   "new-site",
 	Short: "Create a gomini template",
 	Long:  "",
 	RunE:  newSite,
@@ -20,6 +20,7 @@ func newSite(cmd *cobra.Command, args []string) error {
 		fmt.Fprintf(os.Stderr, "\033[31mERROR: project name is required.\033[m Example: gomini new site helloworld\n")
 		return nil
 	}
+	fmt.Println()
 	createpath, err := filepath.Abs(filepath.Clean(args[0]))
 	//pkg.Replaces[0].After = args[0]
 	if err != nil {

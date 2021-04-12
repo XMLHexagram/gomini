@@ -1,6 +1,11 @@
-BaseUrl = ""
-LanguageCode = "en-us"
-entry = "entry.gmi"
-autoIndex = false
-Log = true
-LogFile = ["test","log"]
+[Base]
+  BaseUrl = "localhost"
+  LanguageCode = "en-us"
+  Entry = "entry.gmi"
+  AutoIndex = false
+
+[TLS]
+  CertFile = "MyCertificate.crt" # relative or absolute path
+  KeyFile = "MyKey.key"
+#Log = true
+#LogFile = ["test","log"]

@@ -13,7 +13,7 @@ type service struct {
 
 func Init() {
 	s := new(service)
-	viper.AddConfigPath(path.Join("configs"))
+	viper.AddConfigPath(path.Join("."))
 	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
 	err := viper.ReadInConfig()
