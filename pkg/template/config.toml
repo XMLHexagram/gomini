@@ -1,0 +1,6 @@
+BaseUrl = ""
+LanguageCode = "en-us"
+entry = "entry.gmi"
+autoIndex = false
+Log = true
+LogFile = ["test","log"]
