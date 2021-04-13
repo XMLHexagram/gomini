@@ -6,13 +6,14 @@ type Config struct {
 	//Log    `toml:"Log"`
 	Base
 	TLS
+	Gemini
 }
 
 type Base struct {
 	BaseUrl      string
-	LanguageCode string
-	Entry        string
-	AutoIndex    bool
+	//LanguageCode string
+	//Entry        string
+	//AutoIndex    bool
 }
 
 type TLS struct {
@@ -20,6 +21,28 @@ type TLS struct {
 	KeyFile  string
 }
 
+type Gemini struct {
+	DefaultLang     string
+	AutoRedirect    bool
+	AutoRedirectUrl string
+	File            []struct {
+		Router string `toml:"Router"`
+		Path   string `toml:"Path"`
+	} `toml:"File"`
+	Dir []struct {
+		Router        string `toml:"Router"`
+		Path          string `toml:"Path"`
+		Index         string `toml:"Index"`
+		AutoCatalogue bool   `toml:"AutoCatalogue"`
+	} `toml:"Dir"`
+	Proxy []struct {
+		Router    string `toml:"Router"`
+		Method    string `toml:"Method"`
+		URL       string `toml:"URL"`
+		MetaField string `toml:"MetaField"`
+		BodyField string `toml:"BodyField"`
+	} `toml:"Proxy"`
+}
 //type Http struct {
 //	Port    string `toml:"Port"`
 //	Timeout int    `toml:"Timeout"`

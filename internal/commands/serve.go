@@ -16,12 +16,24 @@ var NewServeCmd = &cobra.Command{
 func newServe(cmd *cobra.Command, args []string) error {
 	config.Init()
 	tls := config.ProvideTLS()
-	base := config.ProvideBase()
-	engine, err := gemini.New(tls.CertFile, tls.KeyFile, base.LanguageCode)
+	geminiConfig := config.ProvideGemini()
+	engine, err := gemini.New(tls.CertFile, tls.KeyFile, geminiConfig.DefaultLang)
 	if err != nil {
 		panic(err)
 	}
-	engine.HandleDir("/", "public", base.Entry)
+	engine.AutoRedirect = geminiConfig.AutoRedirect
+	engine.AutoRedirectUrl = geminiConfig.AutoRedirectUrl
+	for _, v := range geminiConfig.Dir {
+		engine.HandleDir(v.Router, v.Path, v.Index)
+	}
+
+	for _, v := range geminiConfig.File {
+		engine.HandleFile(v.Router, v.Path)
+	}
+
+	for _, v := range geminiConfig.Proxy {
+		engine.HandleProxy(v.Router, v.URL)
+	}
 	err = engine.Run(":1965")
 	if err != nil {
 		panic(err)

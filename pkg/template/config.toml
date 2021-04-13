@@ -1,11 +1,30 @@
 [Base]
-  BaseUrl = "localhost"
-  LanguageCode = "en-us"
-  Entry = "entry.gmi"
-  AutoIndex = false
+BaseUrl = "localhost"
 
 [TLS]
-  CertFile = "MyCertificate.crt" # relative or absolute path
-  KeyFile = "MyKey.key"
+CertFile = "MyCertificate.crt" # relative or absolute path
+KeyFile = "MyKey.key"
 #Log = true
 #LogFile = ["test","log"]
+
+[Gemini]
+DefaultLang = "zh"
+AutoRedirect = true
+AutoRedirectUrl = "gemini://localhost/"
+#[[Gemini.File]]
+#Router = "/file" # the router will be registed
+#Path = "test.gmi" # relative or absolute path
+
+[[Gemini.Dir]]
+Router = "/"
+Path = "public"
+Index = "entry.gmi"
+AutoCatalogue = false # todo: coming soon
+
+# need json response and will use body field in json struct as response body
+#[[Gemini.Proxy]]
+#Router = "/url"
+#Method = "GET" # todo: coming soon
+#URL = "http://127.0.0.1:12222"
+#MetaField = "meta" # todo: coming soon
+#BodyField = "body"

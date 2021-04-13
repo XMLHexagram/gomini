@@ -7,3 +7,7 @@ func ProvideTLS() TLS {
 func ProvideBase() Base {
 	return configService.Base
 }
+
+func ProvideGemini() Gemini {
+	return configService.Gemini
+}
