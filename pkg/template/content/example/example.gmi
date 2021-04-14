@@ -1,4 +1,7 @@
-{{$Draft = true}}
-{{if not $Draft}}
+# test
 
+{{$Draft = false}}
+{{if not $Draft}}
+test url
 {{end}}
+test url

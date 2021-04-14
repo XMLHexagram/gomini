@@ -1,2 +1,2 @@
 # hello gemini!
-=> {{.BaseUrl}}/
+=> /example/example

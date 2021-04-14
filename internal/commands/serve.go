@@ -2,7 +2,7 @@ package commands
 
 import (
 	"github.com/lmx-Hexagram/gemini-generator/internal/service/config"
-	"github.com/lmx-Hexagram/gemini-server/pkg/gemini"
+	"github.com/lmx-Hexagram/gemini-generator/pkg/gemini/gemini"
 	"github.com/spf13/cobra"
 )
 

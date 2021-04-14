@@ -39,3 +39,13 @@ func TestName(t *testing.T) {
 		panic(err)
 	}
 }
+
+//  "/*"
+func Test1(t *testing.T) {
+	//^/.+
+	match, err := filepath.Match("/*", "/example")
+	if err != nil {
+		return
+	}
+	fmt.Println(match)
+}

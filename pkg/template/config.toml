@@ -1,9 +1,9 @@
 [Base]
-BaseUrl = "localhost"
+BaseUrl = "gemini://localhost"
 
 [TLS]
-CertFile = "MyCertificate.crt" # relative or absolute path
-KeyFile = "MyKey.key"
+CertFile = "../../test/MyCertificate.crt" # relative or absolute path
+KeyFile = "../../test/MyKey.key"
 #Log = true
 #LogFile = ["test","log"]
 
