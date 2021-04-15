@@ -2,8 +2,8 @@
 BaseUrl = "gemini://localhost"
 
 [TLS]
-CertFile = "../../test/MyCertificate.crt" # relative or absolute path
-KeyFile = "../../test/MyKey.key"
+CertFile = "MyCertificate.crt" # relative or absolute path
+KeyFile = "MyKey.key"
 #Log = true
 #LogFile = ["test","log"]
 
@@ -11,6 +11,7 @@ KeyFile = "../../test/MyKey.key"
 DefaultLang = "zh"
 AutoRedirect = true
 AutoRedirectUrl = "gemini://localhost/"
+
 #[[Gemini.File]]
 #Router = "/file" # the router will be registed
 #Path = "test.gmi" # relative or absolute path

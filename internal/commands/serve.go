@@ -34,9 +34,12 @@ func newServe(cmd *cobra.Command, args []string) error {
 	for _, v := range geminiConfig.Proxy {
 		engine.HandleProxy(v.Router, v.URL)
 	}
+	go proxy()
 	err = engine.Run(":1965")
 	if err != nil {
 		panic(err)
 	}
+
+
 	return nil
 }

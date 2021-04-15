@@ -1,0 +1,13 @@
+[Unit]
+Description=gomini
+After=network.target
+Wants=network.target
+
+[Service]
+User=root
+WorkingDirectory=/home/gemini/test
+ExecStart=/bin/bash /home/gemini/test/serve.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -52,7 +52,6 @@ func build(cmd *cobra.Command, args []string) error {
 		panic(err)
 	}
 	filepath.WalkDir("./", func(path_ string, d fs.DirEntry, err error) error {
-
 		//a, b := filepath.Split(path_)
 		//fmt.Println(path_)
 		//fmt.Println(a, b)

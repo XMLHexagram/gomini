@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -19,10 +20,10 @@ func TestName(t *testing.T) {
 
 	var Data = struct {
 		What string
-		A []string
+		A    []string
 	}{
 		What: "1221",
-		A: []string{"a", "b", "c"},
+		A:    []string{"a", "b", "c"},
 	}
 	//var A = []string{"a", "b", "c"}
 	tmpl, err := template.New("test").Parse("{{$Draft:=true}} {{$Draft}}\n{{range .A}}{{.}}{{end}}\n")
@@ -49,3 +50,22 @@ func Test1(t *testing.T) {
 	}
 	fmt.Println(match)
 }
+
+func Test2(t *testing.T) {
+	var b = `{"a":"1","b":"2"}`
+	var a = make(map[string]interface{})
+	err := json.Unmarshal([]byte(b), &a)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", a)
+}
+
+//func Test3(t *testing.T) {
+//	var a = `### abcde`
+//	reg := regexp.MustCompile("^#\n")
+//	regexp.MustCompile("^##\n")
+//	regexp.MustCompile("^###\n")
+//	reg.Match()
+//
+//}
