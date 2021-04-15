@@ -10,9 +10,9 @@ var (
 	version = "v0.0.1"
 
 	rootCmd = &cobra.Command{
-		Use:     "conflict",
-		Short:   "conflict",
-		Long:    `conflict`,
+		Use:     "gomini",
+		Short:   "",
+		Long:    ``,
 		Version: version,
 	}
 )
