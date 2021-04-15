@@ -4,8 +4,8 @@ go 1.16
 
 require (
 	git.sr.ht/~adnano/go-gemini v0.2.0
-	git.sr.ht/~sircmpwn/getopt v0.0.0-20201218204720-9961a9c6298f
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
+	github.com/gin-gonic/gin v1.7.1
 	github.com/google/wire v0.5.0
 	github.com/kr/text v0.2.0 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
