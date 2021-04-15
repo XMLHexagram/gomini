@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/ginS"
+	"github.com/go-git/go-git/v5"
 	"github.com/lmx-Hexagram/gemini-generator/internal/service/config"
 	"github.com/lmx-Hexagram/gemini-generator/pkg/gemini/gemini"
 	"github.com/spf13/cobra"
-	"os/exec"
 )
 
 type ServeWorker struct {
@@ -38,11 +38,19 @@ func newServe(cmd *cobra.Command, args []string) error {
 
 		close2()
 		close()
-		output, err := exec.Command("/bin/sh", "git pull").Output()
+		r, err := git.PlainOpen(".")
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println(string(output))
+		worktree, err := r.Worktree()
+		if err != nil {
+			fmt.Println(err)
+		}
+		err = worktree.Pull(&git.PullOptions{RemoteName: "origen"})
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println("pull success")
 	}
 
 	return nil

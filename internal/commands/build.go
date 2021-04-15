@@ -56,7 +56,7 @@ func build(cmd *cobra.Command, args []string) error {
 		//fmt.Println(path_)
 		//fmt.Println(a, b)
 		pathList := strings.Split(path_, "/")
-		fmt.Println(pathList)
+		//fmt.Println(pathList)
 		if pathList[0] == "public" || path_ == "./" || len(pathList) == 0 || string(pathList[len(pathList)-1][0]) == "." {
 			return nil
 		}
