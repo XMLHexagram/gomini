@@ -25,6 +25,7 @@ func hook(cmd *cobra.Command, args []string) error {
 	ginS.POST("/gomini/hook/", func(c *gin.Context) {
 		exec.Command("git","pull")
 	})
+
 	err := ginS.Run(":12210")
 	if err != nil {
 		panic(err)

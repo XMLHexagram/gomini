@@ -502,14 +502,12 @@ func proxyGemini(req gemini.Request, external bool, root *url.URL,
 	}
 }
 
-func proxy() {
+func initProxy() {
 	var (
-		bind = ":8080"
-		css  = defaultCSS
+		css = defaultCSS
 	)
 
-
-	args := "localhost"
+	args := "gemini://localhost"
 	//if len(args) != 1 {
 	//	log.Fatalf("Usage: %s <gemini root>", os.Args[0])
 	//}
@@ -587,7 +585,26 @@ func proxy() {
 		log.Printf("%s (external) %s%s", r.Method, r.URL.Host, r.URL.Path)
 		proxyGemini(req, true, root, w, r, css)
 	}))
+}
 
-	log.Printf("HTTP server listening on %s", bind)
-	log.Fatal(http.ListenAndServe(bind, nil))
+func proxy() func() error {
+	var (
+		bind = ":8080"
+	)
+
+	server := &http.Server{
+		Addr: bind,
+	}
+	go func() {
+		err := server.ListenAndServe()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	}()
+
+	return server.Close
+
+	//log.Printf("HTTP server listening on %s", bind)
+	//log.Fatal(http.ListenAndServe(bind, nil))
 }

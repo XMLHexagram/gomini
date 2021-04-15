@@ -18,7 +18,7 @@ var (
 )
 
 func init() {
-	rootCmd.AddCommand(commands.NewNewSiteCmd, commands.NewBuildCmd, commands.NewServeCmd, commands.NewNewFile, commands.NewExec)
+	rootCmd.AddCommand(commands.NewNewSiteCmd, commands.NewBuildCmd, commands.NewServeCmd, commands.NewNewFile, commands.NewExec, commands.NewHook)
 }
 
 func main() {

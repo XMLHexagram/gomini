@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
 	"text/template"
+	"time"
 )
 
 func TestName(t *testing.T) {
@@ -69,3 +71,24 @@ func Test2(t *testing.T) {
 //	reg.Match()
 //
 //}
+
+func Test12(t *testing.T) {
+	//s := gin.Engine{}
+	ctx := context.Background()
+	ctx2, cancel := context.WithCancel(ctx)
+	ctx3 := context.WithValue(ctx2, "abc", "def")
+	go func() {
+		fmt.Println(ctx3.Deadline())
+		fmt.Println(ctx3.Err())
+		fmt.Println(ctx3.Value("abc"))
+		<-ctx2.Done()
+		<-ctx3.Done()
+		ctx3.Err()
+		fmt.Println(111111)
+		fmt.Println(ctx3)
+	}()
+	fmt.Println(222222)
+	time.Sleep(time.Second * 5)
+
+	cancel()
+}

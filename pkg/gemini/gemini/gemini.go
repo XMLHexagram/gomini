@@ -38,7 +38,7 @@ func (e *Engine) Handle(router string, f HandlerFunc) {
 func (e *Engine) HandleDir(router string, dirPath string, Index string) {
 	a := func(c *Context) {
 		lenRouter := len(router)
-		path_ := c.URL.Path[lenRouter:]+".gmi"
+		path_ := c.URL.Path[lenRouter:] + ".gmi"
 		fmt.Println(path_)
 		file, err := ioutil.ReadFile(path.Join(dirPath, path_))
 		if err != nil {
@@ -54,7 +54,7 @@ func (e *Engine) HandleDir(router string, dirPath string, Index string) {
 			e.HandleFile(router, path.Join(dirPath, Index))
 		}
 	}
-	e.root.addRoute(router+":a",a)
+	e.root.addRoute(router+":a", a)
 	e.root.addRoute(router+":a/*b", a)
 	//e.root.addRoute(router+":a/:b/*c", a)
 	//e.root.addRoute(router+":a/:b/:c/*d", a)
@@ -104,7 +104,7 @@ func (e *Engine) HandleProxy(router string, url string) {
 	debug.PrintProxy(router, url)
 }
 
-func (e *Engine) Run(addr string) (err error) {
+func (e *Engine) Run(addr string) (func() error, error) {
 	tlscfg := &tls.Config{
 		Certificates: []tls.Certificate{e.Cert},
 		MinVersion:   tls.VersionTLS13,
@@ -112,20 +112,23 @@ func (e *Engine) Run(addr string) (err error) {
 
 	listener, err := tls.Listen("tcp", addr, tlscfg)
 	if err != nil {
-		return fmt.Errorf("tls.Listen:%w", err)
+		return nil, fmt.Errorf("tls.Listen:%w", err)
 	}
-	defer listener.Close()
 
-	for {
-		conn, err := listener.Accept()
-		fmt.Println(conn.RemoteAddr())
-		if err != nil {
-			return err
+	go func() {
+		for {
+			conn, err := listener.Accept()
+			//fmt.Println(conn.RemoteAddr())
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			go e.ServeGemini(conn)
 		}
+	}()
 
-		go e.ServeGemini(conn)
-	}
-
+	return listener.Close, nil
 }
 
 func (e *Engine) ServeGemini(conn net.Conn) {
