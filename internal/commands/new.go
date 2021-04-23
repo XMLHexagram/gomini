@@ -1,46 +1,41 @@
 package commands
 
 import (
+	"github.com/lmx-Hexagram/gemini-generator/internal/create"
 	"github.com/spf13/cobra"
-	"os"
-	"path/filepath"
 )
 
-func init() {
-	cmd := &cobra.Command{
-		Use:   "new",
-		Short: "Create a gomini file",
-		Long:  "",
-		RunE:  newFile,
-	}
+var _ cmder = (*newCmd)(nil)
 
-	cmd.Flags().Bool("force", false, "force or not")
-	NewNewFile = cmd
+type newCmd struct {
+	contentEditor string
+	contentType   string
+
+	*baseBuilderCmd
 }
 
-var NewNewFile = &cobra.Command{}
+func (b *commandsBuilder) newNewCmd() *newCmd {
+	cmd := &cobra.Command{
+		Use:   "new [path]",
+		Short: "Create new content for your site",
+		Long: `
+Create a new content.
+Ensure you run this within the root directory of your site.`,
+		RunE: newFile,
+	}
+
+	cc := &newCmd{baseBuilderCmd: b.newBuilderCmd(cmd)}
+
+	cmd.AddCommand(b.newNewSiteCmd().getCommand())
+	return cc
+}
 
 func newFile(cmd *cobra.Command, args []string) error {
-	isForce, err := cmd.Flags().GetBool("force")
-	if err != nil {
-		return err
-	}
-	userPath := args[0]
-	path_ := filepath.Join("content", userPath)
-	if isForce {
-		dirPath := filepath.Dir(path_)
-		err := os.MkdirAll(dirPath, 0766)
-		if err != nil {
-			return err
-		}
-	}
-	if filepath.Ext(path_) == "" {
-		path_ += ".gmi"
-	}
-	f, err := os.Create(path_)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-	return nil
+	//isForce, err := cmd.Flags().GetBool("force")
+	//if err != nil {
+	//	return err
+	//}
+	createPath := args[0]
+
+	return create.NewContent(createPath)
 }

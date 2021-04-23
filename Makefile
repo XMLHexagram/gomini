@@ -6,13 +6,17 @@ TestSite ?= test-site
 build:
 	go build -o build/$(Executable) cmd/main.go
 
+.PHONY: build-linux
+build-linux:
+	GOOS=linux GOARCH=amd64 go build -o build/$(Executable) cmd/main.go
+
 .PHONY: clean
 clean:
 	rm -rf build
 
 .PHONY: test-new-site
 test-new-site: clean build
-	cd build && ./$(Executable) new-site $(TestSite)
+	cd build && ./$(Executable) new site $(TestSite)
 
 .PHONY: test-genSSL-script
 test-genSSL-script:  clean build test-new-site
@@ -28,5 +32,5 @@ test-build: copy-ssl
 
 .PHONY: test-serve
 test-serve: test-build
-	cd build/$(TestSite) &&	./$(Executable) serve
+	cd build/$(TestSite) &&	git init &&./$(Executable) serve
 

@@ -7,23 +7,30 @@ import (
 	"path/filepath"
 )
 
-//openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out MyCertificate.crt -keyout MyKey.key
+var _ cmder = (*newExec)(nil)
 
-func init() {
-	cmd := &cobra.Command{
-		Use:   "exec",
-		Short: "exec scrpit",
-		Long:  "",
-		RunE:  newExec,
-	}
-
-	//cmd.Flags().String("path", "", "where in script")
-	NewExec = cmd
+type newExec struct {
+	*baseBuilderCmd
 }
 
-var NewExec = &cobra.Command{}
+//openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out MyCertificate.crt -keyout MyKey.key
 
-func newExec(cmd *cobra.Command, args []string) error {
+func (b *commandsBuilder) newNewExec() *newExec {
+	cc := &newExec{}
+
+	cmd := &cobra.Command{
+		Use:   "exec",
+		Short: "exec",
+		Long:  ``,
+		RunE:  cc.Exec,
+	}
+
+	cc.baseBuilderCmd = b.newBuilderCmd(cmd)
+
+	return cc
+}
+
+func (cc *newExec) Exec(cmd *cobra.Command, args []string) error {
 	//path, err := cmd.Flags().GetString("path")
 	//if err != nil {
 	//	return err

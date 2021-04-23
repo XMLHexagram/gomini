@@ -13,29 +13,35 @@ import (
 	"strings"
 )
 
-var NewBuildCmd = &cobra.Command{
-	Use:   "build",
-	Short: "Create a gomini template",
-	Long:  "",
-	RunE:  build,
+var _ cmder = (*newBuild)(nil)
+
+type newBuild struct {
+	*baseBuilderCmd
+}
+
+func (b *commandsBuilder) newNewBuild() *newBuild {
+	cc := &newBuild{}
+
+	cmd := &cobra.Command{
+		Use:   "build",
+		Short: "Create new content for your site",
+		Long: `Create a new content file and automatically set the date and title.
+It will guess which kind of file to create based on the path provided.
+
+You can also specify the kind with ` + "`-k KIND`" + `.
+
+If archetypes are provided in your theme or site, they will be used.
+
+Ensure you run this within the root directory of your site.`,
+		RunE: build,
+	}
+
+	cc.baseBuilderCmd = b.newBuilderCmd(cmd)
+
+	return cc
 }
 
 func build(cmd *cobra.Command, args []string) error {
-	//if len(args) == 0 {
-	//	fmt.Fprintf(os.Stderr, "\033[31mERROR: project name is required.\033[m Example: gomini new site helloworld\n")
-	//	return nil
-	//}
-	//createpath, err := filepath.Abs(filepath.Clean(args[0]))
-	//pkg.Replaces[0].After = args[0]
-	//if err != nil {
-	//	return err
-	//}
-	//err = pkg.GenerateDir("template", createpath)
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//return nil
 	config.Init()
 	baseConfig := config.ProvideBase()
 	fmt.Println(baseConfig)
@@ -55,6 +61,15 @@ func build(cmd *cobra.Command, args []string) error {
 		//a, b := filepath.Split(path_)
 		//fmt.Println(path_)
 		//fmt.Println(a, b)
+		//filter := func(a string) bool{
+		//fmt.Println(path_,":::::")
+		if ok, err := path.Match("content/*", path_); !ok || err != nil {
+			//fmt.Println(path_,"::")
+			return nil
+		}
+		//}
+		//var blocks = []string{".git",""}
+
 		pathList := strings.Split(path_, "/")
 		//fmt.Println(pathList)
 		if pathList[0] == "public" || path_ == "./" || len(pathList) == 0 || string(pathList[len(pathList)-1][0]) == "." {
@@ -76,7 +91,7 @@ func build(cmd *cobra.Command, args []string) error {
 			}
 			defer f.Close()
 
-			fmt.Println(path_)
+			//fmt.Println(path_)
 			tmpl, err := template.ParseFiles(path_)
 			if err != nil {
 				panic(err)
@@ -97,7 +112,7 @@ func build(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-var ignore = []string{".DS_Store", "template.go", "template_test.go"}
+var ignore = []string{".DS_Store", "template.go", "template_test.go", ".git"}
 var normalFileMode = os.FileMode(0644)
 var normalDirMode = os.FileMode(0755)
 
@@ -111,61 +126,3 @@ var Replaces = []Replace{
 
 	},
 }
-
-//func GenerateDir(template fs.FS,src, dst string) error {
-//	if err := os.MkdirAll(dst, normalDirMode); err != nil {
-//		return err
-//	}
-//
-//	dirs, err := template.Open()
-//		ReadDir(src)
-//	if err != nil {
-//		return err
-//	}
-//
-//	for _, v := range dirs {
-//		if hasSets(v.Name(), ignore) {
-//			continue
-//		}
-//
-//		srcfp := path.Join(src, v.Name())
-//		dstfp := path.Join(dst, v.Name())
-//
-//		if v.IsDir() {
-//			err = GenerateDir(srcfp, dstfp)
-//			if err != nil {
-//				return err
-//			}
-//		} else {
-//			err := GenerateFile(srcfp, dstfp)
-//			if err != nil {
-//				return err
-//			}
-//		}
-//	}
-//	return nil
-//}
-//
-//func GenerateFile(src, dst string) error {
-//	buf, err := Template.ReadFile(src)
-//	if err != nil {
-//		return err
-//	}
-//	for _, v := range Replaces {
-//		buf = bytes.ReplaceAll(buf, []byte(v.Before), []byte(v.After))
-//	}
-//	err = ioutil.WriteFile(dst, buf, normalFileMode)
-//	if err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//func hasSets(name string, sets []string) bool {
-//	for _, ig := range sets {
-//		if ig == name {
-//			return true
-//		}
-//	}
-//	return false
-//}
