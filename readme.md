@@ -4,8 +4,8 @@ An easy-to-use Gemini Server developed under [go-conflict](https://github.com/go
 
 ## Overview
 
-Gomini is an easy-to-use server which implement Gemini Project protocol.Devote to quick start by only simply modify
-Configuration File。
+Gomini is an easy-to-use server which implement Gemini Project protocol. Devote to quick start by only simply modify
+Configuration File.
 
 ## How to install
 
@@ -20,10 +20,10 @@ Go to [releases](https://github.com/lmx-Hexagram/gomini/releases) find the asset
 
 **Nowadays, Gomini is hard to use, so if you meet some confusing bugs, feel free to open an issue**
 
-1. `hugo new site { .yourGeminiSiteName }`
+1. `gomini new site { .yourGeminiSiteName }`
 2. editor config.toml
-3. `hugo exec genSSL` to generate your ssl key if you don't have one
-4. `hugo serve`
+3. `gomini exec genSSL` to generate your ssl key if you don't have one
+4. `gomini serve`
 5. enjoy *Gemini* on *Gomini*
 
 ## Commands
